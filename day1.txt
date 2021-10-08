@@ -29,7 +29,7 @@ for e in range(30):
     if list1[e] == '羽绒服':
         num1 +=list3[e]
     elif list1[e] == '牛仔裤':
-        num2 +=list3[a]
+        num2 +=list3[e]
     elif list1[e] == '风衣':
         num3 +=list3[e]
     elif list1[e] == '皮草':
