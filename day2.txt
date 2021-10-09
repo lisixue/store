@@ -1,0 +1,32 @@
+"""
+@author:86152
+@file:day_2.py
+@time:2021/10/08
+"""
+#随机抽取0~100之间的一个数
+#最多猜3次，3次后还没猜对 2秒后锁屏
+
+import random  #随机模块
+import  time
+from ctypes import *
+m = random.randint(0,100)
+chances = 3
+count = 0
+while True:
+    num = int(input("请输入一个0~100之间的整数："))
+    count += 1
+    if num > m:
+        print(f'猜大了,你还有{chances-count}次机会')
+    elif num < m:
+        print(f'猜小了,你还有{chances-count}次机会')
+    else :
+        print("猜对了")
+        break
+    if count >=chances:
+        print(f'对不起，你已经猜了{chances}次，游戏结束,2秒后锁屏')
+        print("正确答案为：",m)
+        time.sleep(2)
+        user32 = windll.LoadLibrary('user32.dll')
+        user32.LockWorkStation()
+        break
+
