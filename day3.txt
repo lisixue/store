@@ -1,0 +1,169 @@
+'''
+随机生成一个处罚遍数
+选择容器：
+元组：(1,2,3)  #它是不可修改而且是唯一
+列表：[1,2,3]  #它是可以修改的
+优化代码：一个输入进行判断，判断为1，开始选人，判断为2开始生成数字，判断为q/Q，退出
+'''
+#选人优化
+import random
+list=["知洋","小李","肖文","欣瑞","文姣","小青"]
+while True:
+    inex=input("请输入数字(1.选人，2.惩罚遍数，q/Q退出系统):")
+    if inex == '1':
+        ran=random.randint(0,len(list)-1)
+        print("选的人是：",list[ran])
+    elif inex == '2':
+        ran1=random.randint(0,6)
+        print("惩罚遍数为：",ran1)
+        print(f'{list[ran]}被惩罚了{ran1}遍')
+    elif inex == 'q' or inex == 'Q':
+        print("退出")
+        break
+    else:
+        print("输入的不符合规则")
+
+#实现输入10个数字，并打印10个数的求和结果
+# i = 0
+# sum = 0
+# while i <= 9:
+#     num = int(input("请输入一个数字："))
+#     sum = sum + num
+#     i +=1
+#print("和为",sum)
+
+#从键盘依次输入10个数，最后打印最大的数，10个数的和，以及平均数
+# i = 0
+# max =0
+# sum = 0
+# average = 0
+# while i <=9:
+#     num = int(input("请输入一个数字："))
+#     if num > max:
+#         max =num
+#     sum = sum + num
+#     i +=1
+#     average = sum/i
+# print("最大的数为：",max)
+# print("和为：",sum)
+# print("平均数为：",average)
+
+
+#使用random模块，如何产生50~150之间的数
+import random
+num =random.randint(50,150)
+print("该随机数为：",num)
+
+#从键盘输入任意三边，判断是否能形成三角形，若可以，则判断形成什么三角形（结果判断：等腰，等边，直角，普通，不能形成三角形）
+# length1 = float(input("请输入边长："))
+# length2 = float(input("请输入边长："))
+# length3 = float(input("请输入边长："))
+# if length1 + length2 > length3 and length2 + length3 > length1 and length1 +length3 > length2:
+#     print("能形成三角形")
+#     if length1 == length2 == length3:
+#         print("该三角形为等边三角形")
+#     elif length1 == length2 or length1 == length3 or length2 == length3:
+#         print("该三角形为等腰三角形")
+#     elif length1 * length1 +length2 * length2 == length3 * length3 \
+#             or length1 * length1 + length3 * length3 == length2 * length2 \
+#             or length2 * length2 + length3 * length3 == length1 * length1:
+#         print("该三角形为直角三角形")
+#     else:
+#         print("该三角形为普通三角形")
+# else:
+#     print("不能形成三角形")
+
+
+#有以下两个数，使用+，-号实现两个数的调换
+#A=56  B=78  实现效果： A=78  B=56
+# A = 56
+# B = 78
+# A = A + B  #A=56+78=134
+# B = A - B  #B=134-78=56
+# A = A - B  #A=134-56=78
+# print(f'A={A},B={B}')
+
+#实现登陆系统的三次密码输入错误锁定功能（用户名：root，密码：admin）
+import time
+name = "root"
+password = "admin"
+num = 0
+chances = 3
+while True:
+    name1 = input("请输入用户名：")
+    password1 = input("请输入用户密码：")
+    num += 1
+    if name1 == name and password1 == password:
+        print("恭喜您，登陆系统成功！")
+        break
+    else:
+        print(f'对不起，登陆失败,您还有{chances-num}次机会')
+    if num >= chances:
+        print("您的机会已经使用完，用户名密码已锁定,2秒后锁屏")
+        for i in range(3):
+            print("倒计时",3-i,"秒")
+            time.sleep(1)
+        break
+
+
+#编程实现下列图形的打印
+#       *
+#      * *
+#     * * *
+#    * * * *
+#   * * * * *
+#  * * * * * *
+# * * * * * * *
+#方法一：
+# for i in range(7):
+#     print(" " * (7-i),end=" ")
+#     print("* " * (i+1))
+# 方法二：
+# count =int(input("请输入层数："))
+# for i in range(1,count+1):
+#     print((count-i) * " " ,i * "* ")
+
+#使用while循环实现99乘法表的打印
+# n = 1
+# while n <=9:
+#     m = 1
+#     while m <= n:
+#         print(f'{m}*{n}={n*m}',end=" ")
+#         m += 1
+#     n += 1
+#     print()
+
+
+#编程实现99乘法表的倒序打印
+# n = 9
+# while n >=1:
+#     m = 1
+#     while m <= n:
+#         print(f'{m}*{n}={n*m}',end=" ")
+#         m = m+1
+#     n = n-1
+#     print()
+
+
+#一只青蛙掉在井里了，井高20米，青蛙白天往上爬3米，晚上下滑2米，问第几天能出来？请编程求出
+# h = 20
+# u = 3
+# d = 2
+# day =0
+# while h > 0:
+#     h = h-u
+#     day +=1
+#     if h <=0:
+#         break
+#     h = h+d
+# print("恭喜你成功爬出，一共用了",day,"天")
+
+#用循环来实现20以内的数的阶乘（1！+2！+3！+......+20！）
+# num = 1
+# sum = 0
+# for i in range(1,21):
+#     num *=i
+#     sum +=num
+#     print(f'{i}的阶乘为{num}')
+#     print("阶乘之和为：",sum)
+
