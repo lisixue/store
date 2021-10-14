@@ -1,0 +1,115 @@
+#1.请循环遍历出所有的key
+#2.请循环遍历出所有的value
+#3.请在字典中增加一个键值对，“k4”:“v4”
+dict={"k1":"v1","k2":"v2","k3":"v3"}
+for key in dict:
+    print(key)
+    print(dict[key])
+dict.update({"k4", "v4"})
+print(dict)
+
+
+#方法一
+fruits={
+    "苹果":12.3,
+    "草莓":4.5,
+    "香蕉":6.3,
+    "葡萄":5.8,
+    "橘子":6.4,
+    "樱桃":15.8
+}
+info={
+    "小明":{"fruits":{"苹果":4,"草莓":13,"香蕉":10},"money":""},
+    "小刚":{"fruits": {"葡萄":19,"橘子":12,"樱桃":30},"money":""}
+}
+total1=fruits["苹果"]*info["小明"]["fruits"]["苹果"]\
+       +fruits["草莓"]*info["小明"]["fruits"]["草莓"]\
+       +fruits["香蕉"]*info["小明"]["fruits"]["香蕉"]
+total2=fruits["葡萄"]*info["小刚"]["fruits"]["葡萄"]\
+       +fruits["橘子"]*info["小刚"]["fruits"]["橘子"]\
+       +fruits["樱桃"]*info["小刚"]["fruits"]["樱桃"]
+info["小明"]["money"]=total1
+info["小刚"]["money"]=total2
+print(info)
+
+
+#方法二：
+buy1=[]
+buy2=[]
+num1=[]
+num2=[]
+fruits={
+    "苹果":12.3,
+    "草莓":4.5,
+    "香蕉":6.3,
+    "葡萄":5.8,
+    "橘子":6.4,
+    "樱桃":15.8
+}
+info={
+    "小明":{"fruits":{"苹果":4,"草莓":13,"香蕉":10},"money":""},
+    "小刚":{"fruits": {"葡萄":19,"橘子":12,"樱桃":30},"money":""}
+}
+for i in info["小明"]["fruits"]:
+    buy1.append(fruits[i])
+    num1.append(info["小明"]["fruits"][i])
+# print(buy1)
+# print(num1)
+for j in info["小刚"]["fruits"]:
+    buy2.append(fruits[j])
+    num2.append(info["小刚"]["fruits"][j])
+# print(buy2)
+# print(num2)
+money1=0
+money2=0
+for m in range(len(buy1)):
+    money1 +=buy1[m]*num1[m]
+# print("小明一共花了：",money1)
+for n in range(len(buy2)):
+    money2 +=buy2[n]*num2[n]
+# print("小刚一共花了：",money2)
+info["小明"]["money"]=money1
+info["小刚"]["money"]=money2
+print(info)
+
+
+#编写一个函数，传入一个列表，并统计每个数字出现的次数。返回字典数据：{21:3,56:9,10:3}
+def count(list):
+    dict={}
+    for i in list:
+        if i not in dict:
+            dict[i]=1
+        else:
+            dict[i]+=1
+    print(dict)
+
+list=[]
+while True:
+    n =input("请输入要放入列表中的数字：")
+    if n =="n":
+        break
+    else:
+        list.append(n)
+count(list)
+
+
+#有以下公司员工信息，将数据转换为字典方式（姓名作为键，其他作为值，张三：{xxx:xxx,xxx:xxx}）
+title=["姓名","年龄","性别","编号","任职公司","薪资","部门编号"]
+names = [
+    ["刘备","56","男","106","IBM", 500 ,"50"],
+    ["大乔","19","女","230","微软", 501 ,"60"],
+    ["小乔", "19", "女", "210", "Oracle", 600, "60"],
+    ["张飞", "45", "男", "230", "Tencent", 700 , "10"]
+]
+for i in range(0,len(names)):
+    dict={names[i][0]:{}}
+    for j in range(1,len(names[i])):
+        dict[names[i][0]].update({title[j]:names[i][j]})
+    print(dict)
+
+
+
+
+
+
+
