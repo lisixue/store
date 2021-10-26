@@ -1,0 +1,110 @@
+"""
+@author:86152
+@file:day_7.py
+@time:2021/10/22
+"""
+
+# import xlrd
+# #读取excel表
+# wb = xlrd.open_workbook(filename=r"C:\Users\86152\Desktop\day07\三国集团.xls",encoding_override=True)
+# #选择一个选项卡
+# ##通过文件名获取
+# st = wb.sheet_by_name("员工管理")
+# ##通过角标获取
+# st = wb.sheet_by_index(0)
+# data = st.cell_value(0,0)
+# rows= st.nrows      #获取有多少行
+# cols = st.ncols     #获取有多少列
+# print(data)
+# print(rows,"行",cols,"列")
+#
+# #按行获取
+# for i in range(rows):
+#     data =st.row_values(i)
+#     print(data)
+# #按列获取
+# for j in range(cols):
+#     data =st.col_values(j)
+#     print(data)
+#
+# #  平均年龄，总工资
+# sal_sum = 0
+# age_sum = 0
+# for i in range(1,rows):
+#     data = st.row_values(i)
+#     sal_sum = sal_sum + data[1]
+#     age_sum = age_sum + data[2]
+# print("总工资为：",sal_sum,"平均年龄为：",age_sum/3)
+
+
+import xlrd
+
+wb = xlrd.open_workbook(filename=r"C:\Users\86152\Desktop\day07\任务\2020年每个月的销售情况.xls",encoding_override=True)
+sum = 0
+sum1 = 0
+NAME = []
+SALE = []
+NUM = []
+DICT1 = {}
+DICT2 = {}
+
+for i in range(12):
+    month = wb.sheet_by_index(i)
+    rows = month.nrows
+    cols = month.ncols
+    name = month.col_values(1,start_rowx=1,end_rowx=None)
+    sale = month.col_values(2,start_rowx=1,end_rowx=None)
+    num = month.col_values(4,start_rowx=1,end_rowx=None)
+    NAME.append(name)
+    SALE.append(sale)
+    NUM.append(num)
+    # print(sale)
+    # print(num)
+    for j in range(1,rows):
+        sum += month.cell_value(j,2) * month.cell_value(j,4)
+print("全年的销售总额为", round(sum, 1))
+print("-----------每件衣服的销售（件数）占比为：-----------")
+for x in range(len(NAME)):
+    for y in range(len(NAME[x])):
+        if NAME[x][y] in DICT1:
+            DICT1[NAME[x][y]] += NUM[x][y]
+        else:
+            DICT1[NAME[x][y]] = NUM[x][y]
+        if NAME[x][y] in DICT2:
+            DICT2[NAME[x][y]] += NUM[x][y] * SALE[x][y]
+        else:
+            DICT2[NAME[x][y]] = NUM[x][y] * SALE[x][y]
+# print(DICT1)
+# print(DICT2)
+for m in DICT1:
+    sum1 += DICT1[m]
+max = 0
+for n in DICT1:
+    print(n,"的销售量占比为",format(DICT1[n]/sum1,'.2%'))
+    if DICT1[n] > max:
+        max = DICT1[n]
+        name = n
+print("----------销售最低最高---------")
+print("最畅销的衣服是：",name,",销售量为",max)
+print("全年销售最低的衣服为：",min(DICT1,key=DICT1.get))
+
+print("-------每件衣服的销售额占比：----------")
+for z in DICT2:
+    print(z,"的销售额占比为:",format(DICT2[z]/sum,'.2%'))
+
+print("------每件衣服的月销售占比为：------")
+for i in range(12):
+    onemonth = {}
+    sum2 = 0
+    month = wb.sheet_by_index(i)
+    rows = month.nrows
+    cols = month.ncols
+    for j in range(1,rows):
+        sum2 += month.cell_value(j,4)
+        if month.cell_value(j,1) in onemonth:
+            onemonth[month.cell_value(j,1)] += month.cell_value(j,4)
+        else:
+            onemonth[month.cell_value(j,1)] = month.cell_value(j,4)
+    for key in onemonth:
+        print(key,i+1,'月份的月销售占比为',format(onemonth[key]/sum2,'.2%'))
+
