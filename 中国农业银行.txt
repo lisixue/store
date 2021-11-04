@@ -1,239 +1,227 @@
+"""
+@author:86152
+@file:农行.py
+@time:2021/10/20
+"""
 import random
+#准备一个银行的字典 和银行的名称（银行名称固定）
+bank = {11111111:{"username":"1","password":"123456","account_type":"金卡","country":"1","province":"1","street":"1","door":"001","money":60000},
+        22222222:{"username":"2","password":"123456","account_type":"普通卡","country":"1","province":"1","street":"1","door":"001","money":4000}
+        }
+bank_name="中国农业银行"
 
-# 准备一个银行的数据库 和 银行名称（银行名称写死的）
-bank = {}
-bank_name = "中国农业银行昌平支行" 
-
-# 业务办理界面
+#可以办理的业务
 def welcome():
-    print("*************************************")
-    print("*      中国农业银行昌平支行           *")
-    print("*************************************")
-    print("*  1.开户                            *")
-    print("*  2.存钱                            *")
-    print("*  3.取钱                            *")
-    print("*  4.转账                            *")
-    print("*  5.查询                            *")
-    print("*  6.Bye！                           *")
-    print("**************************************")
+    print("*"*35)
+    print("*     中国农业银行账户账户管理系统     *")
+    print("*"*35)
+    print("*              选项               *")
+    print("*             1.开户              *")
+    print("*             2.存钱              *")
+    print("*             3.取钱              *")
+    print("*             4.转账              *")
+    print("*             5.查询              *")
+    print("*             6.Bye              *")
+    print("*"*35)
 
-# 开户
-def bank_addUser(account, username, password, account_type, country, province, street, door, money):
-    # 判断数据库是否已满
-    if len(bank) >= 100:
-        return 3
-    # 2.判断用户是否存在
-    elif account in bank:
-        return 2
-    # 3.正常开户
-    else:
-        bank[account] = {
-            "username": username,
-            "password": password,
+#开户
+def bank_adduser(account,username,password,account_type,country,province,street,door,money):
+    if account in bank:
+        return 2         #用户已存在
+    elif len(bank) >=100:
+        return 3         #数据库已满
+    else:                #正常开户
+        bank[account]={
+            "username":username,
+            "password":password,
             "account_type":account_type,
-            "country": country,
-            "province": province,
-            "street": street,
-            "door": door,
-            "money": money,
-            "bank_name": bank_name
+            "country":country,
+            "province":province,
+            "street":street,
+            "door":door,
+            "money":money,
+            "bank_name":bank_name
         }
         return 1
 
-# 判断账户类型
+
+#判断账户类型
 def type():
     while True:
-        account_type = input("请输入账户类型[1.金卡  2.普通卡]：")
+        account_type=input("请输入您要开的账户类型：1.[金卡]  2.[普通卡]：")
         if account_type == "1":
-            return "【金卡】"
+            return "金卡"
             break
         elif account_type == "2":
-            return "【普通卡】"
+            return "普通卡"
             break
         elif len(account_type) == 0:
-            print("该项不能为空！请重新输入！")
-            continue
+            print("该项不能为空，请重输")
         else:
-            print("输入错误！请重新输入！")
+            print("输入错误，请重输")
 
-def addUser():
-    username = input("请输入您的用户名：")
-    password = input("请输入您的开户密码：")
+def useradd():
+    account=random.randint(10000000,99999999)
+    username = input("请输入您的姓名：")
+    while True:
+        password = input("请输入您的密码：")
+        if password.isdigit() and len(password) == 6:
+            break
+        else:
+            print("密码格式不对，请重新输入")
     account_type = type()
-    country = input("请输入您的国籍：")
-    province = input("请输入您的居住省份：")
-    street = input("请输入您的街道：")
-    door = input("请输入您的门牌号：")
-    money = int(input("请输入您的开户初始余额："))
-    # 随机产生8位数字
-    account = random.randint(10000000, 99999999)
-    status = bank_addUser(account, username, password,account_type, country, province, street, door, money)
-    if status == 3:
-        print("对不起，用户库已满，请携带证件到其他银行办理！")
-    elif status == 2:
-        print("对不起，该用户已存在！请勿重复开户！")
-    elif status == 1:
-        print("开户成功！以下是您的个人开户信息：")
+    print("下面请输入您的地址：")
+    country = input("\t\t请输入您的国家：")
+    province = input("\t\t请输入您的省份")
+    street = input("\t\t请输入您的街道")
+    door = input("\t\t请输入您的门牌号")
+    money = 0
+    add=bank_adduser(account,username,password,account_type,country,province,street,door,money)
+    if add ==3:
+        print("对不起，该数据库已满，请到其他银行开户")
+    elif add ==2:
+        print("该用户已存在，请到其他银行")
+    elif add ==1:
+        print("恭喜您开户成功，以下是您的开户信息；")
         info = '''
-            ----------个人信息------
-            用户名：%s
-            密码：%s
-            账号：%s
-            账户类型：%s
-            地址信息
-                国家：%s
-                省份：%s
-                街道：%s
-                门牌号: %s
-            余额：%s
-            开户行地址：%s
-            ------------------------
-        '''
-        print(info % (username, password, account, account_type, country, province, street, door, money, bank_name))
-
-# 存钱
-def saveMoney():
-    save_account = int(input("请输入您的账号："))
-    if save_account in bank:
-        save_password = input("请输入您的密码：")
-        # 判断密码是否正确
-        if save_password == bank[save_account]["password"]:
-            save_money = int(input("请输入存入的金额："))
-            bank[save_account]["money"] += save_money
-            print("您的余额为：", bank[save_account]["money"])
-        else:
-            print("密码错误！")
-    else:
-        print("该账户不存在！")
-
-# 取钱
-def getMoney():
-    get_account = input("请输入您的账号：")
-    get_account = int(get_account)
-    if get_account in bank:
-        get_password = input("请输入您的密码：")
-        if get_password == bank[get_account]["password"]:
-            get_money = int(input("请输入您要取出的金额："))
-            bank[get_account]["money"] = int(bank[get_account]["money"])
-            if get_money <= bank[get_account]["money"]:
-                bank[get_account]["money"] -= get_money
-                print("成功取款%s元" % get_money)
-                print("您的余额为：",bank[get_account]["money"])
-            else:
-                Return(3)
-        else:
-            Return(2)
-    else:
-        Return(1)
-
-#返回值
-def Return(num):
-    if num == 1:
-        print("您输入的账号不存在！")
-    elif num == 2:
-        print("您输入的密码错误!")
-    elif num == 3:
-        print("您的钱不够!")
-
-# 转账
-def transferMoney():
-    in_account = int(input("请输入转入的账号："))
-    out_account = int(input("请输入转出的账号："))
-    if in_account == out_account:
-        print("转出账号与转入账号不能相同！")
-    else:
-        if in_account and out_account in bank:
-            out_password = input("请输入转出账号的密码：")
-            if out_password == bank[out_account]["password"]:
-                if bank[out_account]["account_type"] == "【金卡】":
-                    print("您的账户最大转账额为5万元！")
-                    out_money = int(input("请输入您要转出的金额："))
-                    bank[out_account]["money"] = int(bank[out_account]["money"])
-                    bank[in_account]["money"] = int(bank[in_account]["money"])
-                    if out_money <= 50000:
-                        if out_money <= bank[out_account]["money"]:
-                            bank[out_account]["money"] -= out_money
-                            bank[in_account]["money"] += out_money
-                            print("转账成功！")
-                            print("转出金额%s元,转出账户的余额为%s元！" % (out_money, bank[out_account]["money"]))
-                            print("转入金额%s元,转入账户的余额为%s元！" % (out_money, bank[in_account]["money"]))
-                        else:
-                            Return(3)
-                    else:
-                        print("转账金额超出限制！")
-                elif bank[out_account]["account_type"] == "【普通卡】":
-                    print("您的账户最大转账额为2万元！")
-                    out_money = int(input("请输入您要转出的金额："))
-                    bank[out_account]["money"] = int(bank[out_account]["money"])
-                    bank[in_account]["money"] = int(bank[in_account]["money"])
-                    if out_money <= 20000:
-                        if out_money <= bank[out_account]["money"]:
-                            bank[out_account]["money"] -= out_money
-                            bank[in_account]["money"] += out_money
-                            print("转账成功！")
-                            print("转出金额%s元,转出账户的余额为%s元！" % (out_money, bank[out_account]["money"]))
-                            print("转入金额%s元,转入账户的余额为%s元！" % (out_money, bank[in_account]["money"]))
-                        else:
-                            Return(3)
-                    else:
-                        print("转账金额超出限制！")
-            else:
-                Return(2)
-        else:
-            Return(1)
-
-
-# 查询
-def select():
-    select_account = input("请输入账号：")
-    select_account = int(select_account)
-    if select_account in bank:
-        select_password = input("请输入密码：")
-        if select_password == bank[select_account]["password"]:
-            info = '''
-                    ------------个人信息------------
-                    账号：%s
-                    用户名:%s
+                    --------个人信息--------
+                    姓名：%s
+                    账户：%s
                     密码：%s
                     账户类型：%s
-                    地址：%s%s%s%s
+                    国家：%s
+                    省份：%s
+                    街道：%s
+                    门牌号：%s
                     余额：%s
                     开户行名称：%s
-                    --------------------------------
-                    '''
-            print(info % (select_account,
-                          bank[select_account]['username'],
-                          bank[select_account]['password'],
-                          bank[select_account]['account_type'],
-                          bank[select_account]['country'],
-                          bank[select_account]['province'],
-                          bank[select_account]['street'],
-                          bank[select_account]['door'],
-                          bank[select_account]["money"],
-                          bank[select_account]['bank_name']))
 
+                '''
+        print(info %(username,account,len(password)*"*",account_type,country,province,street,door,bank[account]["money"],bank_name))
+
+#存钱
+def put_money():
+    while True:
+        put_account = int(input("请输入您的账号："))
+        if put_account in bank:
+            put_money = int(input("请输入您要存入的金额："))
+            if put_money > 0:
+                bank[put_account]["money"] += put_money
+                print("该账号的余额为：",bank[put_account]["money"])
+                break
+            else:
+                print("金额输入错误，请重输")
         else:
-            print("密码错误!")
-    else:
-        print("账号不存在！")
+            print("该账号不存在")
+            return False
 
+#判断账户密码是否正确
+def account_password(account,password):
+    if account in bank:
+        if password == bank[account]["password"]:
+            return 0   #登录正常
+        else:
+            print("密码错误，请重输")
+            return 2
+    else:
+        print("该用户不存在")
+        return 1
+
+
+#取钱
+def get_money():
+    account = int(input("请输入您的账户："))
+    password = input("请输入您的密码：")
+    if account_password(account,password) == 0:
+        get_money = int(input("请输入您要取的金额："))
+        if bank[account]["money"] >= get_money:
+            bank[account]["money"] -= get_money
+            print("取钱成功，您的余额为",bank[account]["money"])
+            return 0
+        else:
+            print("您的余额不足，取钱失败")
+            return 3
+    elif account_password(account,password) ==2:
+        print("您的密码错误，请重输")
+        return 2
+    elif account_password(account,password) ==1:
+        print("该账户不存在")
+        return 1
+
+#转账
+def transferMoney():
+    out_account = int(input("请输入转出的账号："))
+    in_account = int(input("请输入转入的账号："))
+    out_password = input("请输入转出账号的密码：")
+    out_money = int(input("请输入您要转出的金额："))
+    if account_password(out_account,out_password) == 0:
+        if in_account in bank:
+            if bank[out_account]["account_type"] == "金卡":
+                print("您的账户类型为金卡，最大转账金额为5万元")
+                if out_money <=50000:
+                    if out_money <= bank[out_account]["money"]:
+                        bank[out_account]["money"] -=out_money
+                        bank[in_account]["money"] += out_money
+                        print("恭喜您，转账成功！您现在的余额为",bank[out_account]["money"])
+                        return 0
+                    else:
+                        print("您的余额不足，请重新输入金额")
+                        return 3
+                else:
+                    print("转账失败！您最大的转账金额为五万")
+            elif bank[out_account]["account_type"] == "普通卡":
+                print("您的账户类型为普通卡，最大转账金额为2万元")
+                if out_money <=20000:
+                    if out_money <= bank[in_account]["money"]:
+                        bank[out_account]["money"] -=out_money
+                        bank[in_account]["money"] += out_money
+                        print("恭喜您，转账成功！您现在的余额为",bank[out_account]["money"])
+                        return 0
+                    else:
+                        print("您的余额不足，请重新输入金额")
+                        return 3
+                else:
+                    print("转账失败！您最大的转账金额为两万")
+        else:
+            print("转入账户不存在，请重输")
+            return 1
+    elif account_password(out_account,out_password) == 2:
+        print("密码输入错误，请重输")
+        return 2
+    elif account_password(out_account,out_password) == 3:
+        print("该账号不存在！！！")
+        return 1
+
+
+#查询
+def find():
+    account = int(input("请输入您的账户："))
+    password = input("请输入您的密码：")
+    if account_password(account,password) == 0:
+        print("当前账号为",account,"密码为",password,"用户居住地址为",
+                  bank[account]["country"],bank[account]["province"],bank[account]["street"],bank[account]["door"],
+                  "当前账户的开户行为",bank_name)
+    elif account_password(account,password) == 2:
+        print("密码错误，请重输")
+    elif account_password(account,password) == 3:
+        print("该账号不存在")
 
 while True:
     welcome()
-    # 获取用户的输入选择,根据用户的输入选择进行判断
-    chose = input("请输入您的业务：")
-    if chose == "1":
-        addUser()
-    elif chose == "2":
-        saveMoney()
-    elif chose == "3":
-        getMoney()
-    elif chose == "4":
+    index =int(input("请输入您要办理的业务："))
+    if index == 1:
+        useradd()
+    elif index == 2:
+        put_money()
+    elif index == 3:
+        get_money()
+    elif index ==4:
         transferMoney()
-    elif chose == "5":
-        select()
-    elif chose == "6":
-        print("Bye! 欢迎下次光临！")
+    elif index ==5:
+        find()
+    elif index ==6:
+        print("Bye!")
         break
     else:
-        print("输入错误！请重新输入！")
+        print("没有该业务，请重输")
+
